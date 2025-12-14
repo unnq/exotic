@@ -3,30 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <title>Exotic Black Rentals</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <link rel="stylesheet" href="./css/styles.css" />
 
-  <!-- React via CDN -->
+  <!-- React + ReactDOM -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 
   <!-- Babel for JSX -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- Three.js CDN (IMPORTANT: load BEFORE app.jsx) -->
-  <script src="https://unpkg.com/three@0.170.0/build/three.min.js"></script>
+  <!-- Three.js (legacy UMD build that exposes window.THREE) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
   <div id="root"></div>
 
-  <!-- React app (JSX via Babel) -->
+  <!-- Your React App -->
   <script
     type="text/babel"
     data-presets="env,react"
-    src="./js/app.jsx"
-    defer>
+    src="./js/app.jsx">
   </script>
 </body>
 </html>
