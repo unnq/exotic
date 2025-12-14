@@ -101,12 +101,12 @@ body {
 .btn-primary,
 .btn-ghost {
   padding: 12px 20px;
-  border-radius: 40px;
+  border-radius: 10px;
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
-  border: 1px solid transparent;
+  
 }
 
 .btn-primary {
@@ -120,7 +120,7 @@ body {
 
 .btn-ghost {
   background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.2);
+
 }
 
 .btn-ghost:hover {
