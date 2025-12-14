@@ -34,10 +34,36 @@ body {
 
 /* HERO */
 .hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  position: relative;
+  min-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
   padding: 60px 40px;
   gap: 40px;
+}
+
+/* full background for Three.js */
+.hero-3d-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* content layer */
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr);
+}
+
+/* text styling (same spirit as before) */
+.hero-left {
+  max-width: 520px;
 }
 
 .eyebrow {
