@@ -66,10 +66,7 @@ function Hero() {
     floor.position.y = -1.6;
     scene.add(floor);
 
-    // GRID – subtle, for depth cues
-    const grid = new THREE.GridHelper(160, 80, 0x0f0f11, 0x14141a);
-    grid.position.y = -1.59;
-    scene.add(grid);
+    
 
     let frameId;
 
