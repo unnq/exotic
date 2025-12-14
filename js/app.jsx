@@ -1,44 +1,46 @@
-function App() {
-  return (
-    <div className="app">
-      <header className="nav">
-        <div className="brand">EXOTIC BLACK</div>
+const { useEffect, useRef } = React;
 
-        <nav className="links">
-          <a href="#">Fleet</a>
-          <a href="#">Membership</a>
-          <a href="#">Locations</a>
-          <a href="#">Contact</a>
-        </nav>
-      </header>
+function Hero() {
+  const bgRef = useRef(null);
 
-      <section className="hero">
-        <div className="hero-left">
-          <p className="eyebrow">EXCLUSIVE EXOTIC RENTALS</p>
-          <h1 className="title">
-            Black Label
-            <span className="accent"> Garage</span>
-          </h1>
+  useEffect(() => {
+    if (!bgRef.current || typeof THREE === "undefined") return;
 
-          <p className="subtitle">
-            A private showroom of hypercars, supercars, and one-of-one exotics.
-            Available by appointment only.
-          </p>
+    const container = bgRef.current;
+    const width = container.clientWidth || window.innerWidth;
+    const height = container.clientHeight || window.innerHeight * 0.8;
 
-          <div className="cta-row">
-            <button className="btn-primary">Request Availability</button>
-            <button className="btn-ghost">View Collection</button>
-          </div>
-        </div>
+    // Scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x050509);
+    scene.fog = new THREE.Fog(0x050509, 8, 26);
 
-        <div className="hero-right">
-          <div className="three-placeholder">
-            3D showroom coming soon.
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+    camera.position.set(0, 2.5, 9);
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio || 1);
+    renderer.setSize(width, height);
+    renderer.domElement.style.display = "block";
+
+    container.innerHTML = ""; // clear in case of hot reload
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x050509, 0.7);
+    scene.add(hemi);
+
+    const spot = new THREE.SpotLight(0xffffff, 1.2, 40, Math.PI / 5, 0.4, 1.2);
+    spot.position.set(6, 10, 4);
+    spot.target.position.set(0, 0, 0);
+    scene.add(spot);
+    scene.add(spot.target);
+
+    // Floor
+    const floorGeo = new THREE.PlaneGeometry(40, 40);
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x050509,
+      roughness: 0.85,
+      metalness: 0.1
