@@ -50,7 +50,7 @@ function Hero() {
     scene.add(spot);
     scene.add(spot.target);
 
-    const fill = new THREE.PointLight(0x6b7cff, 0.35, 40);
+    const fill = new THREE.PointLight(0x0a0c19, 0.35, 40);
     fill.position.set(-10, 4, -6);
     scene.add(fill);
 
@@ -67,25 +67,9 @@ function Hero() {
     scene.add(floor);
 
     // GRID – subtle, for depth cues
-    const grid = new THREE.GridHelper(160, 80, 0x33333a, 0x14141a);
+    const grid = new THREE.GridHelper(160, 80, 0x0f0f11, 0x14141a);
     grid.position.y = -1.59;
     scene.add(grid);
-
-    // A couple of distant “architectural” blocks so it doesn’t feel empty
-    const blockGeo = new THREE.BoxGeometry(2.4, 3.6, 1.2);
-    const blockMat = new THREE.MeshStandardMaterial({
-      color: 0x111119,
-      roughness: 0.5,
-      metalness: 0.4,
-    });
-
-    const leftBlock = new THREE.Mesh(blockGeo, blockMat);
-    leftBlock.position.set(-10, 0.2, -14);
-    scene.add(leftBlock);
-
-    const rightBlock = new THREE.Mesh(blockGeo, blockMat);
-    rightBlock.position.set(9, 0.4, -22);
-    scene.add(rightBlock);
 
     let frameId;
 
