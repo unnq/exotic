@@ -6,7 +6,7 @@ function Hero() {
   const bgRef = useRef(null);
 
   useEffect(() => {
-    console.log("Hero Three.js init…");
+    console.log("Hero Three.js init (dark env)…");
 
     if (!bgRef.current) {
       console.log("No bgRef container found");
@@ -24,11 +24,12 @@ function Hero() {
 
     // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x202025); // lighter so you see it
+    scene.background = new THREE.Color(0x050509);
+    scene.fog = new THREE.Fog(0x050509, 18, 120);
 
     // Camera
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 200);
-    camera.position.set(0, 4, 14);
+    camera.position.set(0, 3.2, 18);
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -39,56 +40,68 @@ function Hero() {
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
 
-    // LIGHTS – bright so you can see everything
-    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambient);
+    // LIGHTING – soft top light + slight cool fill
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x050509, 0.55);
+    scene.add(hemi);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-    dirLight.position.set(5, 10, 7);
-    scene.add(dirLight);
+    const spot = new THREE.SpotLight(0xffffff, 1.0, 80, Math.PI / 5, 0.45, 1.2);
+    spot.position.set(8, 14, 10);
+    spot.target.position.set(0, 0, -5);
+    scene.add(spot);
+    scene.add(spot.target);
 
-    // FLOOR
-    const floorGeo = new THREE.PlaneGeometry(80, 80);
+    const fill = new THREE.PointLight(0x6b7cff, 0.35, 40);
+    fill.position.set(-10, 4, -6);
+    scene.add(fill);
+
+    // FLOOR – 4× further than before
+    const floorGeo = new THREE.PlaneGeometry(160, 160);
     const floorMat = new THREE.MeshStandardMaterial({
-      color: 0x111118,
-      roughness: 0.7,
-      metalness: 0.1,
+      color: 0x04040a,
+      roughness: 0.8,
+      metalness: 0.18,
     });
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.rotation.x = -Math.PI / 2;
-    floor.position.y = -1.5;
+    floor.position.y = -1.6;
     scene.add(floor);
 
-    // GRID (very visible)
-    const grid = new THREE.GridHelper(80, 40, 0xffffff, 0x666666);
-    grid.position.y = -1.49;
+    // GRID – subtle, for depth cues
+    const grid = new THREE.GridHelper(160, 80, 0x33333a, 0x14141a);
+    grid.position.y = -1.59;
     scene.add(grid);
 
-    // "CAR" BLOCK – very obvious
-    const carGeo = new THREE.BoxGeometry(4.2, 1.0, 2.0);
-    const carMat = new THREE.MeshStandardMaterial({
-      color: 0xff4444,
-      metalness: 0.6,
-      roughness: 0.3,
+    // A couple of distant “architectural” blocks so it doesn’t feel empty
+    const blockGeo = new THREE.BoxGeometry(2.4, 3.6, 1.2);
+    const blockMat = new THREE.MeshStandardMaterial({
+      color: 0x111119,
+      roughness: 0.5,
+      metalness: 0.4,
     });
-    const car = new THREE.Mesh(carGeo, carMat);
-    car.position.set(0, -1.0, 0);
-    scene.add(car);
+
+    const leftBlock = new THREE.Mesh(blockGeo, blockMat);
+    leftBlock.position.set(-10, 0.2, -14);
+    scene.add(leftBlock);
+
+    const rightBlock = new THREE.Mesh(blockGeo, blockMat);
+    rightBlock.position.set(9, 0.4, -22);
+    scene.add(rightBlock);
 
     let frameId;
 
     const animate = () => {
       frameId = requestAnimationFrame(animate);
 
-      const t = performance.now() * 0.001;
+      const t = performance.now() * 0.0006;
 
-      // Orbit camera a bit
-      camera.position.x = Math.sin(t * 0.3) * 6.0;
-      camera.position.z = 14 + Math.cos(t * 0.25) * 2.0;
-      camera.lookAt(0, -0.5, 0);
+      // Very subtle camera motion
+      camera.position.x = Math.sin(t * 0.6) * 2.4;
+      camera.position.z = 18 + Math.cos(t * 0.4) * 1.8;
+      camera.lookAt(0, 0.2, -6);
 
-      // Rotate the block
-      car.rotation.y += 0.01;
+      // Slight drift on lights so the reflections shift
+      spot.position.x = 8 + Math.sin(t * 1.2) * 2.0;
+      fill.position.z = -6 + Math.cos(t * 0.8) * 2.5;
 
       renderer.render(scene, camera);
     };
@@ -109,12 +122,13 @@ function Hero() {
       cancelAnimationFrame(frameId);
       window.removeEventListener("resize", handleResize);
       container.innerHTML = "";
+
       renderer.dispose();
       floorGeo.dispose();
       floorMat.dispose();
-      carGeo.dispose();
-      carMat.dispose();
-      console.log("Hero Three.js cleanup");
+      blockGeo.dispose();
+      blockMat.dispose();
+      console.log("Hero Three.js cleanup (dark env)");
     };
   }, []);
 
