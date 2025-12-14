@@ -121,10 +121,9 @@ function Hero() {
       {/* Content overlay */}
       <div className="hero-inner">
         <div className="hero-left">
-          <p className="eyebrow">EXCLUSIVE EXOTIC RENTALS</p>
+          <p className="eyebrow">Luxury Car Rental</p>
           <h1 className="title">
             Black Label
-            <span className="accent"> Garage</span>
           </h1>
 
           <p className="subtitle">
@@ -138,7 +137,7 @@ function Hero() {
           </div>
 
           <p className="meta">
-            Los Angeles · Miami · Dubai · By appointment only
+            Los Angeles · Orange County
           </p>
         </div>
       </div>
